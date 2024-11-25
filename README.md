@@ -21,9 +21,9 @@ Flutter app with three screens: ListProduct, CardProduct, CartProduct.
 
 ## how to run
 For development was used Android Studio.
-Flutter SDK: 3.24.4
-Dart SDK version: 3.5.4 (stable)
-jdk version 17 
+- Flutter SDK: 3.24.4
+- Dart SDK version: 3.5.4 (stable)
+- jdk version 17 
 - optional: 
 add to gradle.properties file in .android folder  
 org.gradle.java.home={$path},
