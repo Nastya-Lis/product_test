@@ -1,7 +1,4 @@
-# example
-
-A new Flutter project.
-
+# product_test
 ## Getting Started
 
 This project is a starting point for a Flutter application.
