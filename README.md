@@ -1,17 +1,31 @@
-# example
+# product_test
+Flutter app with three screens: ListProduct, CardProduct, CartProduct.
 
-A new Flutter project.
+## Screenshots
 
-## Getting Started
+### Products
+![List products](assets/product_list.JPG)
 
-This project is a starting point for a Flutter application.
+### Details
+![Card product](assets/product_card.JPG)
 
-A few resources to get you started if this is your first Flutter project:
+### Cart
+![List products added in cart](assets/product_cart.JPG)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## technology stack
+- dio
+- get_it
+- bloc
+- sqlite
+- go_router
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-"# product_test" 
+## how to run
+For development was used Android Studio.
+Flutter SDK: 3.24.4
+Dart SDK version: 3.5.4 (stable)
+jdk version 17 
+- optional: 
+add to gradle.properties file in .android folder  
+org.gradle.java.home={$path},
+where path leads to jdk version 17
+
