@@ -13,13 +13,13 @@ class CartProductList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(cartScreen),
-      ),
-      body: BlocBuilder<CartProductBloc, CartProductState>(
-        builder: (context, state) {
-          return Column(
+    return BlocBuilder<CartProductBloc, CartProductState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text(cartScreen),
+          ),
+          body: Column(
             children: [
               Expanded(
                 child: ListView.builder(
@@ -32,17 +32,18 @@ class CartProductList extends StatelessWidget {
                 ),
               ),
             ],
-          );
-        },
-      ),
-      bottomNavigationBar: CustomBottomNavbar(
-        cartFunc: () {
-          context.push(AppRoutes.productCart.path);
-        },
-        homeFunc: () {
-          context.pushReplacement(AppRoutes.listScreen.path);
-        },
-      ),
+          ),
+          bottomNavigationBar: CustomBottomNavbar(
+            cartFunc: () {
+              context.push(AppRoutes.productCart.path);
+            },
+            homeFunc: () {
+              context.pushReplacement(AppRoutes.listScreen.path);
+            },
+            itemCartCount: state.itemCartCount,
+          ),
+        );
+      },
     );
   }
 }

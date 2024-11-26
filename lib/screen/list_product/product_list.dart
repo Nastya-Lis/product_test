@@ -13,44 +13,44 @@ class ProductList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(listScreen),
-      ),
-      body: BlocConsumer<ListProductBloc, ListProductState>(
-        listener: (context, state) {
-          if (state.status == Status.error && state.isShowedDialog) {
-            showDialog(
-                context: context,
-                builder: (BuildContext contextDialog) {
-                  return AlertDialog(
-                    title: const Text(errorDialog),
-                    content: Text(state.errorMessage),
-                    actions: [
-                      TextButton(
-                        child: const Text(continueButtonText),
-                        onPressed: () {
-                          Navigator.of(contextDialog).pop();
-                        },
-                      ),
-                      TextButton(
-                        child: const Text(tryAgainButtonText),
-                        onPressed: () {
-                          Navigator.of(contextDialog).pop();
-                          context
-                              .read<ListProductBloc>()
-                              .add(InitListProductEvent());
-                        },
-                      ),
-                    ],
-                  );
-                }).then((_) {
-              context.read<ListProductBloc>().add(LoadingListProductEvent());
-            });
-          }
-        },
-        builder: (context, state) {
-          return Column(
+    return BlocConsumer<ListProductBloc, ListProductState>(
+      listener: (context, state) {
+        if (state.status == Status.error && state.isShowedDialog) {
+          showDialog(
+              context: context,
+              builder: (BuildContext contextDialog) {
+                return AlertDialog(
+                  title: const Text(errorDialog),
+                  content: Text(state.errorMessage),
+                  actions: [
+                    TextButton(
+                      child: const Text(continueButtonText),
+                      onPressed: () {
+                        Navigator.of(contextDialog).pop();
+                      },
+                    ),
+                    TextButton(
+                      child: const Text(tryAgainButtonText),
+                      onPressed: () {
+                        Navigator.of(contextDialog).pop();
+                        context
+                            .read<ListProductBloc>()
+                            .add(InitListProductEvent());
+                      },
+                    ),
+                  ],
+                );
+              }).then((_) {
+            context.read<ListProductBloc>().add(LoadingListProductEvent());
+          });
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text(listScreen),
+          ),
+          body: Column(
             children: [
               Expanded(
                 child: GridView.builder(
@@ -68,15 +68,17 @@ class ProductList extends StatelessWidget {
                 ),
               )
             ],
-          );
-        },
-      ),
-      bottomNavigationBar: CustomBottomNavbar(
-          cartFunc: () async {
-            await context.push(AppRoutes.productCart.path).then((_) =>
-                context.read<ListProductBloc>().add(InitListProductEvent()));
-          },
-          homeFunc: () {}),
+          ),
+          bottomNavigationBar: CustomBottomNavbar(
+            cartFunc: () async {
+              await context.push(AppRoutes.productCart.path).then((_) =>
+                  context.read<ListProductBloc>().add(InitListProductEvent()));
+            },
+            homeFunc: () {},
+            itemCartCount: state.itemCartCount,
+          ),
+        );
+      },
     );
   }
 }

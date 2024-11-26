@@ -5,10 +5,12 @@ class CustomBottomNavbar extends StatelessWidget {
     super.key,
     required this.cartFunc,
     required this.homeFunc,
+    required this.itemCartCount,
   });
 
   final Function cartFunc;
   final Function homeFunc;
+  final int itemCartCount;
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +33,31 @@ class CustomBottomNavbar extends StatelessWidget {
               },
               icon: const Icon(Icons.home)),
           IconButton(
-              onPressed: () {
-                cartFunc();
-              },
-              icon: const Icon(Icons.shopping_cart))
+            onPressed: () {
+              cartFunc();
+            },
+            icon: Stack(
+              children: [
+                const Icon(Icons.shopping_cart),
+                Positioned(
+                  right: 0,
+                  child: Container(
+                      padding: const EdgeInsets.all(1),
+                      decoration: BoxDecoration(
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      constraints:
+                          const BoxConstraints(minHeight: 12, minWidth: 12),
+                      child: Text(
+                        itemCartCount.toString(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 8),
+                      )),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
