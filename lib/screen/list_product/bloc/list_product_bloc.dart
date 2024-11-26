@@ -14,6 +14,7 @@ part 'list_product_state.dart';
 class ListProductBloc extends Bloc<ListProductEvent, ListProductState> {
   final DataRepository _dataRepository =
       GetIt.I<DataRepository>(instanceName: "DBRepository");
+  final _dio = GetIt.I<DioMethods>(instanceName: "DioMethods");
 
   ListProductBloc() : super(ListProductState()) {
     on<InitListProductEvent>(_initEvent);
@@ -24,16 +25,20 @@ class ListProductBloc extends Bloc<ListProductEvent, ListProductState> {
   FutureOr<void> _initEvent(
       InitListProductEvent event, Emitter<ListProductState> emit) async {
     emit(state.copyWith(status: Status.init, isShowedDialog: false));
-    final dio = GetIt.I<DioMethods>(instanceName: "DioMethods");
-    List<Product>? value = await dio.getProducts();
+    List<Product>? value = await _dio.getProducts();
+    List<Product> lists = await _dataRepository.getCartProducts();
     if (value == null) {
       emit(state.copyWith(
-          errorMessage: dio.messageError,
+          errorMessage: _dio.messageError,
           isShowedDialog: true,
-          status: Status.error));
+          status: Status.error,
+          itemCartCount: lists.length));
     } else {
       emit(state.copyWith(
-          products: value, isShowedDialog: false, status: Status.loaded));
+          products: value,
+          isShowedDialog: false,
+          status: Status.loaded,
+          itemCartCount: lists.length));
     }
   }
 
@@ -43,6 +48,8 @@ class ListProductBloc extends Bloc<ListProductEvent, ListProductState> {
         await _dataRepository.getCartProductFromCart(event.product.productId);
     if (productInCart == null) {
       _dataRepository.saveProductToCart(event.product);
+      List<Product> lists = await _dataRepository.getCartProducts();
+      emit(state.copyWith(itemCartCount: lists.length));
     }
   }
 
