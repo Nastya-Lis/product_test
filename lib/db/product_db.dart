@@ -6,7 +6,7 @@ class ProductDB {
 
   ProductDB._internal();
 
-  factory ProductDB(){
+  factory ProductDB() {
     return _productDB;
   }
 

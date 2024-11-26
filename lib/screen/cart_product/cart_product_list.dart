@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../constants.dart';
 import '../../router.dart';
 import '../reusable_widget/custom_bottom_navbar.dart';
 
@@ -14,7 +15,7 @@ class CartProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cart"),
+        title: const Text(cartScreen),
       ),
       body: BlocBuilder<CartProductBloc, CartProductState>(
         builder: (context, state) {

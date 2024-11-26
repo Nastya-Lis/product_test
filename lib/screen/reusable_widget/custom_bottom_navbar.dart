@@ -13,7 +13,7 @@ class CustomBottomNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 56,
+      height: MediaQuery.of(context).size.height * 0.08,
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.symmetric(horizontal: 30),
       decoration: const BoxDecoration(

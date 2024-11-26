@@ -3,7 +3,6 @@ part of 'cart_product_bloc.dart';
 class CartProductState {
   final List<Product>? productsCart;
 
-
   CartProductState({
     this.productsCart = const [],
   });

@@ -42,7 +42,8 @@ final GoRouter router = GoRouter(routes: <RouteBase>[
       Product product = state.extra as Product;
       return CustomTransitionPage(
         child: BlocProvider<ProductCardBloc>(
-          create: (context) => ProductCardBloc()..add(InitProductCardEvent(product: product)),
+          create: (context) =>
+              ProductCardBloc()..add(InitProductCardEvent(product: product)),
           child: const ProductCard(),
         ),
         transitionsBuilder: (BuildContext context, Animation<double> animation,

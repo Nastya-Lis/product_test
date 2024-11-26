@@ -37,5 +37,4 @@ class DBRepository extends DataRepository {
   void updateProduct(Product product) async {
     await _productService.updateCartProduct(product);
   }
-
 }

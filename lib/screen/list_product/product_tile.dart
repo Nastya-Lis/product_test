@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../constants.dart';
+
 class ProductTile extends StatelessWidget {
   const ProductTile({super.key, required this.product});
 
@@ -48,7 +50,7 @@ class ProductTile extends StatelessWidget {
                 backgroundColor: Colors.amber,
               ),
               child: const Text(
-                "Add to cart",
+                addToCartText,
                 style: TextStyle(color: Colors.white),
               ),
             )

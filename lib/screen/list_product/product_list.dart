@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../constants.dart';
+
 class ProductList extends StatelessWidget {
   const ProductList({super.key});
 
@@ -13,7 +15,7 @@ class ProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Products App"),
+        title: const Text(listScreen),
       ),
       body: BlocConsumer<ListProductBloc, ListProductState>(
         listener: (context, state) {
@@ -22,17 +24,17 @@ class ProductList extends StatelessWidget {
                 context: context,
                 builder: (BuildContext contextDialog) {
                   return AlertDialog(
-                    title: const Text("Error"),
+                    title: const Text(errorDialog),
                     content: Text(state.errorMessage),
                     actions: [
                       TextButton(
-                        child: const Text('Continue'),
+                        child: const Text(continueButtonText),
                         onPressed: () {
                           Navigator.of(contextDialog).pop();
                         },
                       ),
                       TextButton(
-                        child: const Text('Try again'),
+                        child: const Text(tryAgainButtonText),
                         onPressed: () {
                           Navigator.of(contextDialog).pop();
                           context

@@ -1,7 +1,6 @@
 import 'package:example/network/model/product.dart';
 
 abstract class DataRepository {
-
   Future<List<Product>> getCartProducts();
 
   Future<Product?> getCartProductFromCart(int id);

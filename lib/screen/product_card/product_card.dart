@@ -1,3 +1,4 @@
+import 'package:example/constants.dart';
 import 'package:example/screen/product_card/bloc/product_card_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +12,7 @@ class ProductCard extends StatelessWidget {
         builder: (context, state) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text("Details"),
+          title: const Text(cardScreen),
         ),
         body: Card(
           elevation: 4,
@@ -70,7 +71,7 @@ class ProductCard extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: Container(
-          height: 56,
+          height: MediaQuery.of(context).size.height * 0.08,
           padding: const EdgeInsets.all(12),
           margin: const EdgeInsets.symmetric(horizontal: 30),
           decoration: const BoxDecoration(
@@ -91,7 +92,7 @@ class ProductCard extends StatelessWidget {
                 backgroundColor: Colors.amber,
               ),
               child: Text(
-                state.isExistInCart ? "Added" : "Add to cart",
+                state.isExistInCart ? addedText : addToCartText,
                 style: const TextStyle(color: Colors.white),
               )),
         ),
