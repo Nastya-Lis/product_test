@@ -2,8 +2,6 @@ import 'package:example/network/model/product.dart';
 
 abstract class ProductService {
 
-  init();
-
   Future<List<Product>> getCartProducts();
 
   Future<Product?> getCartProduct(int id);

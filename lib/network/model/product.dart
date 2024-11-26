@@ -10,7 +10,7 @@ class Product {
   String title;
   String description;
   double price;
-  List<String> images;
+  List<String>? images;
   String thumbnail;
   int? quantity;
 
@@ -50,7 +50,7 @@ class Product {
       ProductDbHelper.description: description,
       ProductDbHelper.price: price,
       ProductDbHelper.quantity: quantity ?? 1,
-      ProductDbHelper.images: images.first,
+      ProductDbHelper.images: images?.first,
       ProductDbHelper.thumbnail: thumbnail
     };
   }

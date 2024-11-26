@@ -22,9 +22,13 @@ class ProductTile extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-                child: Image.network(
-              product.thumbnail,
-            )),
+              child: Image.network(
+                product.thumbnail,
+                errorBuilder: (context, error, trace) {
+                  return const Icon(Icons.no_photography);
+                },
+              ),
+            ),
             Text(
               textAlign: TextAlign.center,
               product.title,
@@ -36,7 +40,9 @@ class ProductTile extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                context.read<ListProductBloc>().add(AddToCartListProductEvent(product: product));
+                context
+                    .read<ListProductBloc>()
+                    .add(AddToCartListProductEvent(product: product));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.amber,

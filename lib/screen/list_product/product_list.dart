@@ -1,4 +1,3 @@
-import 'package:example/network/model/product.dart';
 import 'package:example/router.dart';
 import 'package:example/screen/list_product/bloc/list_product_bloc.dart';
 import 'package:example/screen/list_product/product_tile.dart';
@@ -16,7 +15,38 @@ class ProductList extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Products App"),
       ),
-      body: BlocBuilder<ListProductBloc, ListProductState>(
+      body: BlocConsumer<ListProductBloc, ListProductState>(
+        listener: (context, state) {
+          if (state.status == Status.error && state.isShowedDialog) {
+            showDialog(
+                context: context,
+                builder: (BuildContext contextDialog) {
+                  return AlertDialog(
+                    title: const Text("Error"),
+                    content: Text(state.errorMessage),
+                    actions: [
+                      TextButton(
+                        child: const Text('Continue'),
+                        onPressed: () {
+                          Navigator.of(contextDialog).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: const Text('Try again'),
+                        onPressed: () {
+                          Navigator.of(contextDialog).pop();
+                          context
+                              .read<ListProductBloc>()
+                              .add(InitListProductEvent());
+                        },
+                      ),
+                    ],
+                  );
+                }).then((_) {
+              context.read<ListProductBloc>().add(LoadingListProductEvent());
+            });
+          }
+        },
         builder: (context, state) {
           return Column(
             children: [

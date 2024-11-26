@@ -22,14 +22,25 @@ class ProductCard extends StatelessWidget {
               children: [
                 state.product != null
                     ? Expanded(
-                        child: CarouselView(
-                          itemExtent: MediaQuery.of(context).size.width *
-                              (state.product!.images.length > 1 ? 0.75 : 1),
-                          children: List.generate(
-                              state.product!.images.length,
-                              (index) =>
-                                  Image.network(state.product!.images[index])),
-                        ),
+                        child: state.product?.images == null
+                            ? const SizedBox(
+                                child: Icon(Icons.no_photography),
+                              )
+                            : CarouselView(
+                                itemExtent: MediaQuery.of(context).size.width *
+                                    (state.product!.images!.length > 1
+                                        ? 0.75
+                                        : 1),
+                                children: List.generate(
+                                  state.product!.images!.length,
+                                  (index) => Image.network(
+                                    state.product!.images![index],
+                                    errorBuilder: (context, error, trace) {
+                                      return const Icon(Icons.no_photography);
+                                    },
+                                  ),
+                                ),
+                              ),
                       )
                     : const SizedBox(),
                 SizedBox(
@@ -69,9 +80,13 @@ class ProductCard extends StatelessWidget {
                 BoxShadow(offset: Offset(0, 60), blurRadius: 20),
               ]),
           child: ElevatedButton(
-              onPressed: state.isExistInCart ? null : () {
-                context.read<ProductCardBloc>().add(AddProductToCardEvent());
-              },
+              onPressed: state.isExistInCart
+                  ? null
+                  : () {
+                      context
+                          .read<ProductCardBloc>()
+                          .add(AddProductToCardEvent());
+                    },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.amber,
               ),

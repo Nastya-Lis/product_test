@@ -5,11 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ProductServiceImpl implements ProductService {
-  Database db = GetIt.I.get<Database>(instanceName: "Database");
-
-  @override
-  init() {
-  }
+  final Database db = GetIt.I.get<Database>(instanceName: "Database");
 
   @override
   Future<void> deleteCartProduct(Product product) async {

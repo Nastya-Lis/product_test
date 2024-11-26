@@ -18,7 +18,6 @@ class AppDependencies {
   final getIt = GetIt.I;
 
   Future<void> setUp() async {
-
     final Database db = await ProductDB().initDb();
     getIt.registerLazySingleton<Database>(() => db, instanceName: "Database");
 
@@ -30,6 +29,5 @@ class AppDependencies {
         instanceName: "DioService");
     getIt.registerLazySingleton<DioMethods>(() => DioMethodsImpl(),
         instanceName: "DioMethods");
-    getIt.get<ProductService>(instanceName: "ProductService").init();
   }
 }

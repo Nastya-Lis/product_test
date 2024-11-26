@@ -27,13 +27,37 @@ class DioService {
       baseUrl: baseUrl,
       responseType: ResponseType.json,
     ));
+
+    _dio.interceptors.add(InterceptorsWrapper(
+        onError: (DioException exception, ErrorInterceptorHandler handler) {
+      handler.next(exception);
+    }));
+  }
+}
+
+class DioErrorUtil {
+  static String handleError(DioException error) {
+    String errorDescription = '';
+    switch (error.type) {
+      case DioExceptionType.connectionTimeout:
+        errorDescription = 'Connection timeout has expired';
+        break;
+      case DioExceptionType.cancel:
+        errorDescription = 'The request was canceled';
+        break;
+      case DioExceptionType.connectionError:
+        errorDescription = 'Connection error';
+        break;
+      default:
+        errorDescription = 'Unknown error';
+    }
+    return errorDescription;
   }
 }
 
 abstract class DioMethods {
-  Future<List<Product>> getProducts();
-
-  Future<Product> getProduct(int id);
+  String messageError = "";
+  Future<List<Product>?> getProducts();
 }
 
 class DioMethodsImpl extends DioMethods {
@@ -41,16 +65,15 @@ class DioMethodsImpl extends DioMethods {
       GetIt.I.get<DioService>(instanceName: "DioService");
 
   @override
-  Future<List<Product>> getProducts() async {
-    Response response = await dioService.dio.get("/products");
-    List<dynamic> data = response.data["products"];
-    return data.map((element) => Product.fromJson(element, const Uuid().v4())).toList();
-  }
-
-  @override
-  Future<Product> getProduct(int id) async {
-    Response response = await dioService.dio.get("/products/$id}");
-    var json = response.data;
-    return Product.fromJson(json, const Uuid().v4());
+  Future<List<Product>?> getProducts() async {
+    try {
+      Response response = await dioService.dio.get("/products");
+      List<dynamic> data = response.data["products"];
+      return data.map((element) => Product.fromJson(element, const Uuid().v4()))
+          .toList();
+    } on DioException catch (e) {
+      messageError = DioErrorUtil.handleError(e);
+      return null;
+    }
   }
 }

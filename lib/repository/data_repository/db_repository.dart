@@ -9,9 +9,6 @@ class DBRepository extends DataRepository {
       GetIt.I.get<ProductService>(instanceName: "ProductService");
 
   @override
-  void init() {}
-
-  @override
   void deleteProductFromCart(Product product) async {
     await _productService.deleteCartProduct(product);
   }

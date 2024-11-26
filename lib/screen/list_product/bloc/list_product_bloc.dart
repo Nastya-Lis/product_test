@@ -13,26 +13,41 @@ part 'list_product_state.dart';
 
 class ListProductBloc extends Bloc<ListProductEvent, ListProductState> {
   final DataRepository _dataRepository =
-  GetIt.I<DataRepository>(instanceName: "DBRepository");
+      GetIt.I<DataRepository>(instanceName: "DBRepository");
 
   ListProductBloc() : super(ListProductState()) {
     on<InitListProductEvent>(_initEvent);
+    on<LoadingListProductEvent>(_loadingEvent);
     on<AddToCartListProductEvent>(_addToCart);
   }
 
-  FutureOr<void> _initEvent(InitListProductEvent event,
-      Emitter<ListProductState> emit) async {
-    List<Product> value =
-    await GetIt.I<DioMethods>(instanceName: "DioMethods").getProducts();
-    emit(state.copyWith(products: value));
+  FutureOr<void> _initEvent(
+      InitListProductEvent event, Emitter<ListProductState> emit) async {
+    emit(state.copyWith(status: Status.init, isShowedDialog: false));
+    final dio = GetIt.I<DioMethods>(instanceName: "DioMethods");
+    List<Product>? value = await dio.getProducts();
+    if (value == null) {
+      emit(state.copyWith(
+          errorMessage: dio.messageError,
+          isShowedDialog: true,
+          status: Status.error));
+    } else {
+      emit(state.copyWith(
+          products: value, isShowedDialog: false, status: Status.loaded));
+    }
   }
 
-  FutureOr<void> _addToCart(AddToCartListProductEvent event,
-      Emitter<ListProductState> emit) async {
-    Product? productInCart = await _dataRepository.getCartProductFromCart(
-        event.product.productId);
+  FutureOr<void> _addToCart(
+      AddToCartListProductEvent event, Emitter<ListProductState> emit) async {
+    Product? productInCart =
+        await _dataRepository.getCartProductFromCart(event.product.productId);
     if (productInCart == null) {
       _dataRepository.saveProductToCart(event.product);
     }
+  }
+
+  FutureOr<void> _loadingEvent(
+      LoadingListProductEvent event, Emitter<ListProductState> emit) {
+    emit(state.copyWith(status: Status.loading, isShowedDialog: false));
   }
 }

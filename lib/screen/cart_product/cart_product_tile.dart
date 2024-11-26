@@ -15,7 +15,12 @@ class CartProductTile extends StatelessWidget {
       leading: SizedBox(
         height: 60,
         width: 60,
-        child: Image.network(product.thumbnail),
+        child: Image.network(
+          product.thumbnail,
+          errorBuilder: (context, error, trace) {
+            return const Icon(Icons.no_photography);
+          },
+        ),
       ),
       title: Text(
         product.title,
